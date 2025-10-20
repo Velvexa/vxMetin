@@ -42,13 +42,22 @@ public class AdminGUIListener implements Listener {
         final String confirmTitle = strip(plugin.getLang().get("gui.title-confirm"));
 
         boolean isAdminMenu = title.equalsIgnoreCase(adminTitle);
+
         boolean isListMenu = title.equalsIgnoreCase(listTitle)
                 || title.toLowerCase().contains("remove")
                 || title.toLowerCase().contains("respawn")
                 || title.toLowerCase().contains("sil")
-                || title.toLowerCase().contains("yeniden");
+                || title.toLowerCase().contains("yeniden")
+                || title.toLowerCase().contains("entfernen")
+                || title.toLowerCase().contains("wiederbeleben")
+                || title.toLowerCase().contains("reaparecer")
+                || title.toLowerCase().contains("eliminar");
+
         boolean isConfirmMenu = title.equalsIgnoreCase(confirmTitle)
-                || title.toLowerCase().contains("onay");
+                || title.toLowerCase().contains("onay")
+                || title.toLowerCase().contains("confirm")
+                || title.toLowerCase().contains("bestätigen")
+                || title.toLowerCase().contains("confirmar");
 
         ItemStack item = e.getCurrentItem();
         if (item == null || item.getType().isAir()) return;
@@ -87,8 +96,9 @@ public class AdminGUIListener implements Listener {
         if (isListMenu) {
             String mode = "none";
             String lower = rawTitle.toLowerCase();
-            if (lower.contains("remove") || lower.contains("sil")) mode = "remove";
-            else if (lower.contains("respawn") || lower.contains("yeniden")) mode = "respawn";
+
+            if (lower.contains("remove") || lower.contains("sil") || lower.contains("eliminar")) mode = "remove";
+            else if (lower.contains("respawn") || lower.contains("yeniden") || lower.contains("reaparecer")) mode = "respawn";
 
             String uid = extractUniqueId(item);
             if (uid == null || uid.isEmpty()) {
@@ -113,7 +123,10 @@ public class AdminGUIListener implements Listener {
 
         if (isConfirmMenu) {
             String uid = extractUniqueId(item);
-            if (uid == null || uid.isEmpty()) return;
+            if (uid == null || uid.isEmpty()) {
+                debug("No UID found in confirm menu for item: " + itemName);
+                return;
+            }
 
             final String confirm = strip(plugin.getLang().get("gui.confirm-yes"));
             final String cancel = strip(plugin.getLang().get("gui.confirm-no"));
@@ -137,28 +150,23 @@ public class AdminGUIListener implements Listener {
         }
     }
 
-private String extractUniqueId(ItemStack item) {
-    if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) return null;
-    List<String> lore = item.getItemMeta().getLore();
-    if (lore == null) return null;
+    private String extractUniqueId(ItemStack item) {
+        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) return null;
+        List<String> lore = item.getItemMeta().getLore();
+        if (lore == null) return null;
 
-    for (String line : lore) {
-        String clean = ChatColor.stripColor(line).toLowerCase().trim();
-        if (clean.startsWith("uid:")) {
-            return clean.substring(4).trim();
+        for (String line : lore) {
+            String clean = ChatColor.stripColor(line).trim();
+            if (clean.contains(":")) {
+                String[] parts = clean.split(":", 2);
+                if (parts.length == 2) {
+                    String id = parts[1].trim();
+                    if (!id.isEmpty()) return id;
+                }
+            }
         }
-        if (clean.contains("uid:")) {
-            return clean.split("uid:")[1].trim();
-        }
-        if (clean.contains("unique id")) {
-            return clean.replace("unique id", "").trim();
-        }
-        if (clean.contains("benzersiz kimlik")) {
-            return clean.replace("benzersiz kimlik", "").trim();
-        }
+        return null;
     }
-    return null;
-}
 
     private String strip(String s) {
         return ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', s == null ? "" : s));
