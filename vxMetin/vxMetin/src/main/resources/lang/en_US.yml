@@ -25,7 +25,7 @@ gui:
   registered-stone-name: "&aRegistered / Waiting Stone"
   title-confirm-delete: "&cDelete Confirmation"
   confirm-yes: "&aYes, delete!"
-  confirm-yes-lore: "&7Confirm deletion of stone with UID {id}."
+  confirm-yes-lore: "&7Confirm"
   confirm-no: "&cNo, cancel"
   confirm-no-lore: "&7Cancels this operation."
   stone-lore-location: "&7Location: &f{world}, {x}, {y}, {z}"
@@ -230,3 +230,4 @@ console:
   listeners-failed: "Listener registration failed: {error}"
   reload-storage-failed: "Storage reload failed: {error}"
   hologram-reloaded: "Hologram height reloaded: {offset}"
+
