@@ -103,19 +103,22 @@ public class AdminGUI {
                         plugin.getLang().get("gui.title-confirm-delete")));
 
         List<String> yesLore = new ArrayList<>();
-        yesLore.add(ChatColor.translateAlternateColorCodes('&', "&7UID: &f" + uniqueId));
         yesLore.add(ChatColor.translateAlternateColorCodes('&',
-                plugin.getLang().get("gui.confirm-yes-lore")));
+                plugin.getLang().get("gui.confirm-yes-lore").replace("{id}", uniqueId)));
+        yesLore.add(ChatColor.translateAlternateColorCodes('&', "&8UID: " + uniqueId));
 
         List<String> noLore = new ArrayList<>();
         noLore.add(ChatColor.translateAlternateColorCodes('&',
                 plugin.getLang().get("gui.confirm-no-lore")));
+        noLore.add(ChatColor.translateAlternateColorCodes('&', "&8UID: " + uniqueId));
 
         inv.setItem(3, createItem(Material.LIME_WOOL,
-                plugin.getLang().get("gui.confirm-yes"), yesLore));
+                plugin.getLang().get("gui.confirm-yes"),
+                yesLore));
 
         inv.setItem(5, createItem(Material.RED_WOOL,
-                plugin.getLang().get("gui.confirm-no"), noLore));
+                plugin.getLang().get("gui.confirm-no"),
+                noLore));
 
         fillEmptySlots(inv, Material.BLACK_STAINED_GLASS_PANE);
         player.openInventory(inv);
@@ -139,6 +142,7 @@ public class AdminGUI {
                     plugin.getLang().get("gui.stone-lore-location-unknown")));
         }
 
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&8UID: " + uid));
         lore.add("");
         lore.add(ChatColor.translateAlternateColorCodes('&',
                 plugin.getLang().get("gui.stone-lore-click")));
