@@ -5,6 +5,7 @@
 # English: Main configuration file for the vxMetin system.
 # Türkçe: vxMetin sisteminin ana yapılandırma dosyasıdır.
 # Deutsch: Hauptkonfigurationsdatei des vxMetin-Systems.
+# Discord: velvexa0
 # ────────────────────────────────────────────────
 
 
@@ -201,3 +202,4 @@ misc:
   check-updates: true
   auto-save-interval: 300
   performance-mode: false
+
