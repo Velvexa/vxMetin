@@ -25,7 +25,7 @@ gui:
   registered-stone-name: "&aRegistrierter / Wartender Stein"
   title-confirm-delete: "&cLöschbestätigung"
   confirm-yes: "&aJa, löschen!"
-  confirm-yes-lore: "&7Löschen des Steins mit UID {id} bestätigen."
+  confirm-yes-lore: "&7Bestätigen."
   confirm-no: "&cNein, abbrechen"
   confirm-no-lore: "&7Bricht diesen Vorgang ab."
   stone-lore-location: "&7Ort: &f{world}, {x}, {y}, {z}"
@@ -228,4 +228,5 @@ console:
   listeners-registered: "Alle Listener erfolgreich registriert."
   listeners-failed: "Registrierung der Listener fehlgeschlagen: {error}"
   reload-storage-failed: "Neuladen des Speichers fehlgeschlagen: {error}"
+
   hologram-reloaded: "Hologrammhöhe neugeladen: {offset}"
