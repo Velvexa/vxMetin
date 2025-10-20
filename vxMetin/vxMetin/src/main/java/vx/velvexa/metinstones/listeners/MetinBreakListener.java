@@ -104,10 +104,16 @@ public class MetinBreakListener implements Listener {
             playEffects(loc, stone.effects);
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     plugin.getLang().get("messages.stone-damage")
+                            .replace("{player}", player.getName())
+                            .replace("%player%", player.getName())
                             .replace("{stone}", stone.coloredName)
+                            .replace("%stone%", stone.coloredName)
                             .replace("{damage}", String.valueOf((int) damageAmount))
+                            .replace("%damage%", String.valueOf((int) damageAmount))
                             .replace("{current}", String.valueOf((int) active.currentHP))
-                            .replace("{max}", String.valueOf((int) stone.health))));
+                            .replace("%current%", String.valueOf((int) active.currentHP))
+                            .replace("{max}", String.valueOf((int) stone.health))
+                            .replace("%max%", String.valueOf((int) stone.health))));
             safetyLock.remove(loc);
             return;
         }
@@ -145,7 +151,9 @@ public class MetinBreakListener implements Listener {
                         .replace("%player%", top.getName())
                         .replace("{player}", top.getName())
                         .replace("%rank%", String.valueOf(i + 1))
+                        .replace("{rank}", String.valueOf(i + 1))
                         .replace("%damage%", String.valueOf((int) dmg))
+                        .replace("{damage}", String.valueOf((int) dmg))
                         .replace("{stone}", ChatColor.stripColor(stone.displayName))
                         .replace("%stone%", ChatColor.stripColor(stone.displayName));
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), formatted);
@@ -153,8 +161,12 @@ public class MetinBreakListener implements Listener {
 
             top.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     plugin.getLang().get("messages.top-damager")
+                            .replace("{player}", top.getName())
+                            .replace("%player%", top.getName())
                             .replace("{rank}", String.valueOf(i + 1))
-                            .replace("{damage}", String.valueOf((int) dmg))));
+                            .replace("%rank%", String.valueOf(i + 1))
+                            .replace("{damage}", String.valueOf((int) dmg))
+                            .replace("%damage%", String.valueOf((int) dmg))));
         }
 
         String broadcast = (stone.messageDestroy != null && !stone.messageDestroy.isEmpty())
@@ -175,6 +187,8 @@ public class MetinBreakListener implements Listener {
 
         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 plugin.getLang().get("messages.player-stone-destroyed")
+                        .replace("%player%", player.getName())
+                        .replace("{player}", player.getName())
                         .replace("%stone%", stone.coloredName)
                         .replace("{stone}", stone.coloredName)));
 
