@@ -223,7 +223,7 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             try {
                 String currentVersion = getDescription().getVersion();
-                URL url = new URL("https://raw.githubusercontent.com/velvexa/vxMetin/main/version.txt");
+                URL url = new URL("https://raw.githubusercontent.com/Velvexa/vxMetin/main/vxMetin/vxMetin/version.txt");
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
                 String latestVersion = in.readLine().trim();
                 in.close();
