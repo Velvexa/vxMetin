@@ -1,0 +1,203 @@
+# ────────────────────────────────────────────────
+# vxMetin • Configuration File
+# Version: 1.0.0-STABLE
+# ────────────────────────────────────────────────
+# English: Main configuration file for the vxMetin system.
+# Türkçe: vxMetin sisteminin ana yapılandırma dosyasıdır.
+# Deutsch: Hauptkonfigurationsdatei des vxMetin-Systems.
+# ────────────────────────────────────────────────
+
+
+# ───────────────
+# LANGUAGE SETTINGS
+# ───────────────
+# English: Default language file to load. Must match a file name in /lang/ (e.g., en_US.yml).
+# Türkçe: Yüklenecek varsayılan dil dosyası. /lang/ klasöründeki dosya adıyla eşleşmelidir (örnek: en_US.yml).
+# Deutsch: Standardsprachdatei, die geladen werden soll. Muss mit einem Dateinamen in /lang/ übereinstimmen (z.B. en_US.yml).
+language: en_EN
+
+
+# ───────────────
+# DEBUG MODE
+# ───────────────
+# English: If true, detailed debug messages will be printed in console.
+# Türkçe: true ise, konsolda ayrıntılı hata ayıklama mesajları gösterilir.
+# Deutsch: Wenn true, werden detaillierte Debug-Nachrichten in der Konsole angezeigt.
+debug: true
+
+
+# ───────────────
+# STORAGE SYSTEM
+# ───────────────
+# English: Determines where metin stone data will be saved. Supported: YAML, SQLITE, MYSQL
+# Türkçe: Metin taşı verilerinin nerede saklanacağını belirler. Desteklenen: YAML, SQLITE, MYSQL
+# Deutsch: Legt fest, wo Metinstein-Daten gespeichert werden. Unterstützt: YAML, SQLITE, MYSQL
+storage:
+  type: YAML
+
+
+  # ───── YAML STORAGE ─────
+  # English: File path for YAML database storage.
+  # Türkçe: YAML veritabanı depolaması için dosya yolu.
+  # Deutsch: Dateipfad für YAML-Datenbankspeicherung.
+  yaml:
+    file: data/database.yml
+
+
+  # ───── SQLITE STORAGE ─────
+  # English: File path for SQLite database file.
+  # Türkçe: SQLite veritabanı dosyası için dosya yolu.
+  # Deutsch: Dateipfad für SQLite-Datenbankdatei.
+  sqlite:
+    file: data/vxmetin.db
+
+
+  # ───── MYSQL STORAGE ─────
+  # English: MySQL connection credentials and table settings.
+  # Türkçe: MySQL bağlantı bilgileri ve tablo ayarları.
+  # Deutsch: MySQL-Verbindungsdaten und Tabelleneinstellungen.
+  mysql:
+    host: localhost
+    port: 3306
+    database: vxmetin
+    username: root
+    password: ""
+    table: vxmetin_stones
+
+    # English: Use HikariCP connection pooling for optimized performance.
+    # Türkçe: Daha iyi performans için HikariCP bağlantı havuzunu kullan.
+    # Deutsch: Verwenden Sie HikariCP-Verbindungspooling für optimierte Leistung.
+    hikari:
+      enabled: true
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+
+
+# ───────────────
+# AUTOSPAWN SETTINGS
+# ───────────────
+# English: Auto-load and spawn all registered stones on server start.
+# Türkçe: Sunucu açıldığında tüm kayıtlı taşların otomatik yüklenip doğmasını sağlar.
+# Deutsch: Lädt und spawnt alle registrierten Steine beim Serverstart automatisch.
+autospawn:
+  enabled: true
+  delay-seconds: 20
+
+
+# ───────────────
+# HOLOGRAM SETTINGS
+# ───────────────
+# English: Settings for hologram displays above metin stones.
+# Türkçe: Metin taşlarının üstündeki hologram görünümleri için ayarlar.
+# Deutsch: Einstellungen für Hologrammanzeigen über den Metinsteinen.
+hologram:
+  enabled: true
+  base-offset: 1.8
+  update-interval: 20
+
+# ───────────────
+# DAMAGE SETTINGS
+# ───────────────
+# English: Controls how much damage players deal to Metin Stones per hit.
+# Türkçe: Oyuncuların metin taşlarına her vuruşta vereceği hasar miktarını kontrol eder.
+# Deutsch: Legt fest, wie viel Schaden Spieler pro Treffer an Metinsteinen verursachen.
+damage:
+  # English: Global multiplier for all damage dealt to stones. 
+  # Example: 0.5 = half damage, 2.0 = double damage.
+  # Türkçe: Tüm taşlara verilen hasarın genel çarpanı.
+  # Örnek: 0.5 = yarı hasar, 2.0 = iki kat hasar.
+  # Deutsch: Globaler Multiplikator für allen Schaden an Steinen.
+  # Beispiel: 0.5 = halber Schaden, 2.0 = doppelter Schaden.
+  multiplier: 1.0
+
+  # English: Minimum damage allowed per hit (prevents extremely low values).
+  # Türkçe: Her vuruşta uygulanabilecek minimum hasar (çok düşük değerleri engeller).
+  # Deutsch: Minimaler Schaden pro Treffer (verhindert extrem niedrige Werte).
+  min-damage: 1.0
+
+  # English: Maximum damage allowed per hit (caps critical or overpowered hits).
+  # Türkçe: Her vuruşta uygulanabilecek maksimum hasar (çok yüksek vuruşları sınırlar).
+  # Deutsch: Maximaler Schaden pro Treffer (begrenzt kritische oder zu starke Treffer).
+  max-damage: 1.0
+
+
+
+# ───────────────
+# LOGGING SYSTEM
+# ───────────────
+# English: Configuration for the action logging system (who placed, broke, etc.).
+# Türkçe: Eylem kayıt sisteminin yapılandırması (kim koydu, kim kırdı vb.).
+# Deutsch: Konfiguration des Aktionsprotokollsystems (wer platziert, zerstört usw.).
+logging:
+  enabled: true
+  save-to-file: true
+  file-name: logs/metin-actions.log
+  include-debug: false
+
+
+# ───────────────
+# BROADCAST MESSAGES
+# ───────────────
+# English: Whether to send broadcast messages for events like stone spawn or break.
+# Türkçe: Taş doğumu veya kırılması gibi olaylarda duyuru mesajlarının gönderilip gönderilmeyeceğini belirler.
+# Deutsch: Legt fest, ob bei Ereignissen wie Steinspawns oder -zerstörung Broadcast-Nachrichten gesendet werden.
+broadcast:
+  on-spawn: true
+  on-break: true
+  on-remove: true
+
+
+# ───────────────
+# GUI SETTINGS
+# ───────────────
+# English: Titles and options for the admin GUI menus.
+# Türkçe: Yönetici GUI menüleri için başlık ve seçenek ayarları.
+# Deutsch: Titel und Optionen für die Admin-GUI-Menüs.
+gui:
+  admin-title: "&6Metin Stone Management"
+  confirm-title: "&cConfirm Deletion"
+  list-title: "&eActive Metin Stones"
+  add-title: "&aAdd New Stone"
+  cancel-button: "&cCancel"
+  confirm-button: "&aConfirm"
+
+
+# ───────────────
+# PLAYER PERMISSIONS
+# ───────────────
+# English: Basic permission node configuration.
+# Türkçe: Temel izin düğümü yapılandırması.
+# Deutsch: Grundlegende Berechtigungskonfiguration.
+permissions:
+  admin: "vxmetin.admin"
+  use: "vxmetin.use"
+
+
+# ───────────────
+# COMMAND MESSAGES
+# ───────────────
+# English: Default command feedback messages.
+# Türkçe: Varsayılan komut geri bildirim mesajları.
+# Deutsch: Standard-Befehlsrückmeldungen.
+messages:
+  console-only: "&cThis command can only be used in-game!"
+  no-permission: "&cYou do not have permission to use this command."
+  usage: "&eUse: /metin <admin|reload>"
+  admin-open: "&aOpening admin interface..."
+  unknown-subcommand: "&cUnknown subcommand! Use /metin"
+  reload-success: "&aConfiguration reloaded successfully! Current locale: {locale}"
+  reload-log: "&eReloaded by: {player}"
+  plugin-disabled: "&cPlugin disabled successfully."
+
+
+# ───────────────
+# OTHER OPTIONS
+# ───────────────
+# English: Miscellaneous and future development flags.
+# Türkçe: Çeşitli ve gelecekteki geliştirmeler için ayarlar.
+# Deutsch: Verschiedene und zukünftige Entwicklungsoptionen.
+misc:
+  check-updates: true
+  auto-save-interval: 300
+  performance-mode: false

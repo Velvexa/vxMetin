@@ -1,0 +1,79 @@
+# ╔════════════════════════════════════════════════════════════╗
+# ║                     vxMetin • Plugin File                   ║
+# ║                     Version: 1.0.0                          ║
+# ║                     Author: Velvexa                         ║
+# ║                                                             ║
+# ╚════════════════════════════════════════════════════════════╝
+# English: Official plugin definition file for the vxMetin system.
+# Türkçe: vxMetin sistemine ait resmi eklenti tanımlama dosyasıdır.
+# Deutsch: Offizielle Plugin-Definitionsdatei des vxMetin-Systems.
+# ───────────────────────────────────────────────────────────────
+
+name: vxMetin
+main: vx.velvexa.metinstones.vxMetin
+version: 1.0.0
+api-version: 1.16
+author: Velvexa
+website: https://github.com/velvexa/vxMetin
+prefix: vxMetin
+
+description: >
+  Advanced & multilingual Metin Stone system for MMORPG-style Minecraft servers.
+  Includes GUI-based management, holographic display, automatic respawn, logging,
+  and hybrid storage support (YAML, SQLite, MySQL).
+
+# English: Defines core dependencies and plugin integration settings.
+# Türkçe: Temel bağımlılıkları ve eklenti entegrasyon ayarlarını tanımlar.
+# Deutsch: Definiert Kernabhängigkeiten und Integrationseinstellungen.
+# ───────────────────────────────────────────────────────────────
+depend:
+  - DecentHolograms
+
+softdepend:
+  - Vault
+  - PlaceholderAPI
+  - MythicMobs
+
+
+# English: Main commands available for server administrators and players.
+# Türkçe: Sunucu yöneticileri ve oyuncular için mevcut ana komutlar.
+# Deutsch: Hauptbefehle für Serveradministratoren und Spieler.
+# ───────────────────────────────────────────────────────────────
+commands:
+  metin:
+    description: >
+      English: Opens or manages Metin Stones via admin GUI or reloads configuration.
+      Türkçe: Metin taşlarını yönetici GUI’sinden açar veya yapılandırmayı yeniler.
+      Deutsch: Öffnet/verwaltet Metin-Steine über das Admin-GUI oder lädt die Konfiguration neu.
+    usage: /metin <admin|reload>
+    aliases: [metinstone, metinstones, mstone]
+    permission: vxmetin.admin
+    permission-message: "&cYou do not have permission to use this command! / Bu komutu kullanma yetkiniz yok! / Sie haben keine Berechtigung für diesen Befehl!"
+
+
+# English: Permission system definitions for all plugin features.
+# Türkçe: Eklentinin tüm özellikleri için izin sistemi tanımları.
+# Deutsch: Berechtigungssystem-Definitionen für alle Plugin-Funktionen.
+# ───────────────────────────────────────────────────────────────
+permissions:
+
+  vxmetin.admin:
+    description: >
+      English: Grants full administrative access to all Metin Stone management features.
+      Türkçe: Metin taşı yönetim sistemine tam erişim sağlar.
+      Deutsch: Gewährt vollen administrativen Zugriff auf alle Metinstein-Verwaltungsfunktionen.
+    default: op
+
+  vxmetin.player:
+    description: >
+      English: Allows players to interact with Metin Stones (damage, view holograms, receive rewards).
+      Türkçe: Oyuncuların Metin taşlarıyla etkileşime geçmesine izin verir (hasar verme, hologram görme, ödül alma).
+      Deutsch: Erlaubt Spielern, mit Metinsteinen zu interagieren (Schaden, Hologramme ansehen, Belohnungen erhalten).
+    default: true
+
+  vxmetin.debug:
+    description: >
+      English: Enables developer-level debug output and advanced logging.
+      Türkçe: Geliştirici seviyesinde hata ayıklama ve detaylı loglamayı etkinleştirir.
+      Deutsch: Aktiviert Entwickler-Debug-Ausgabe und erweiterte Protokollierung.
+    default: false
