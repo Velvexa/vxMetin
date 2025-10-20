@@ -1,5 +1,6 @@
-# 🪨 vxMetin
+# vxMetin
 **A modern, performance-friendly Metin Stone system for Minecraft RPG servers.**
+**dev: Velvexa - discord: velvexa0**
 
 ---
 
