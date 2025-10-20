@@ -5,7 +5,6 @@
 # English: Main configuration file for the vxMetin system.
 # Türkçe: vxMetin sisteminin ana yapılandırma dosyasıdır.
 # Deutsch: Hauptkonfigurationsdatei des vxMetin-Systems.
-# Discord: velvexa0
 # ────────────────────────────────────────────────
 
 
@@ -15,7 +14,7 @@
 # English: Default language file to load. Must match a file name in /lang/ (e.g., en_US.yml).
 # Türkçe: Yüklenecek varsayılan dil dosyası. /lang/ klasöründeki dosya adıyla eşleşmelidir (örnek: en_US.yml).
 # Deutsch: Standardsprachdatei, die geladen werden soll. Muss mit einem Dateinamen in /lang/ übereinstimmen (z.B. en_US.yml).
-language: en_US
+language: tr_TR
 
 
 # ───────────────
@@ -202,5 +201,3 @@ misc:
   check-updates: true
   auto-save-interval: 300
   performance-mode: false
-
-
