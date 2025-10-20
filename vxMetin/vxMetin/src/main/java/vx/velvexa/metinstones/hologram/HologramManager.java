@@ -37,7 +37,7 @@ public class HologramManager {
 
     public void reloadOffset() {
         this.baseOffset = plugin.getConfig().getDouble("hologram.base-offset", 1.8);
-        plugin.getLogger().info(plugin.getLang().get("debug.hologram-base-offset") + baseOffset);
+        plugin.getLogger().info(plugin.getLang().get("debug.hologram-base-offset").replace("{offset}", String.valueOf(baseOffset)));
     }
 
     public void createHologram(String uniqueId, StoneManager.MetinStone stone, Location loc) {
@@ -109,10 +109,14 @@ public class HologramManager {
                 }
 
                 if (timeLeft > 0) {
+                    String stoneColored = stone.coloredName != null ? ChatColor.translateAlternateColorCodes('&', stone.coloredName) : stone.displayName;
                     List<String> countdown = List.of(
                             ChatColor.translateAlternateColorCodes('&', plugin.getLang().get("hologram.respawn-line-name")
-                                    .replace("{name}", stone.displayName)),
+                                    .replace("{stone}", stoneColored)
+                                    .replace("{name}", stoneColored)),
                             ChatColor.translateAlternateColorCodes('&', plugin.getLang().get("hologram.respawn-line-timer")
+                                    .replace("{stone}", stoneColored)
+                                    .replace("{name}", stoneColored)
                                     .replace("{time}", String.valueOf(timeLeft)))
                     );
                     DHAPI.setHologramLines(target, countdown);
@@ -252,14 +256,17 @@ public class HologramManager {
     private String parsePlaceholders(String text, StoneManager.MetinStone stone, Player player,
                                      double current, double max, List<String> topDamagers) {
         if (text == null) return "";
-        text = text.replace("{name}", stone.displayName)
+        String stonePlain = stone.displayName != null ? stone.displayName : stone.id;
+        String stoneColored = stone.coloredName != null ? ChatColor.translateAlternateColorCodes('&', stone.coloredName) : stonePlain;
+        text = text.replace("{name}", stonePlain)
+                .replace("{stone}", stoneColored)
                 .replace("{current}", String.valueOf((int) current))
                 .replace("{max}", String.valueOf((int) max));
         if (text.contains("{last-breaker}")) {
             if (player != null) text = text.replace("{last-breaker}", player.getName());
             else text = text.replace("{last-breaker}", plugin.getLang().get("hologram.no-damage-yet"));
         }
-        return text.replace("&", "§");
+        return ChatColor.translateAlternateColorCodes('&', text);
     }
 
     private List<String> expandLine(String line, StoneManager.MetinStone stone, Player player,
