@@ -7,7 +7,7 @@ gui:
   title-add-stone: "&aNeuen Stein hinzufügen"
   no-stones-title: "&cKeine registrierten Steine"
   no-stones-lore: "&7Es sind keine Steine registriert."
-  stone-lore-id: "&7Stein-UID: &f{id}"
+  stone-lore-id: "&7UID: &f{id}"
   stone-lore-health: "&aLeben: &f{health}"
   stone-lore-respawn: "&bRespawn-Zeit: &f{respawn}s"
   stone-lore-click: "&eKlicke, um diesen Stein auszuwählen."
@@ -37,7 +37,7 @@ gui:
   action-teleport: "&bKlicke, um dich zu diesem Stein zu teleportieren."
   action-respawn: "&aKlicke, um diesen Stein respawnen zu lassen."
   stone-lore-title: "&eStein: &f{stone}"
-  stone-lore-uid: "&7Einzigartige ID: &f{uid}"
+  stone-lore-uid: "&7Eindeutige ID: &f{uid}"
   title-stone-list-prefix: "&6Metinsteine •"
   button-add-label: "&aStein hinzufügen"
   button-remove-label: "&cStein entfernen"
@@ -228,5 +228,4 @@ console:
   listeners-registered: "Alle Listener erfolgreich registriert."
   listeners-failed: "Registrierung der Listener fehlgeschlagen: {error}"
   reload-storage-failed: "Neuladen des Speichers fehlgeschlagen: {error}"
-
   hologram-reloaded: "Hologrammhöhe neugeladen: {offset}"
