@@ -6,7 +6,7 @@
 
     <groupId>vx.velvexa.metinstones</groupId>
     <artifactId>vxMetin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>vxMetin</name>
     <description>Lightweight and multilingual Metin Stone system for MMORPG-style Minecraft servers.</description>
     <url>https://github.com/velvexa/vxMetin</url>
