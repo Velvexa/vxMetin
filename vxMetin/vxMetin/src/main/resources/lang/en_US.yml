@@ -7,7 +7,7 @@ gui:
   title-add-stone: "&aAdd New Stone"
   no-stones-title: "&cNo Registered Stones"
   no-stones-lore: "&7There are no registered stones."
-  stone-lore-id: "&7Stone UID: &f{id}"
+  stone-lore-id: "&7UID: &f{id}"
   stone-lore-health: "&aHealth: &f{health}"
   stone-lore-respawn: "&bRespawn Time: &f{respawn}s"
   stone-lore-click: "&eClick to select this stone."
@@ -25,7 +25,7 @@ gui:
   registered-stone-name: "&aRegistered / Waiting Stone"
   title-confirm-delete: "&cDelete Confirmation"
   confirm-yes: "&aYes, delete!"
-  confirm-yes-lore: "&7Confirm"
+  confirm-yes-lore: "&7Confirm."
   confirm-no: "&cNo, cancel"
   confirm-no-lore: "&7Cancels this operation."
   stone-lore-location: "&7Location: &f{world}, {x}, {y}, {z}"
@@ -230,4 +230,3 @@ console:
   listeners-failed: "Listener registration failed: {error}"
   reload-storage-failed: "Storage reload failed: {error}"
   hologram-reloaded: "Hologram height reloaded: {offset}"
-
