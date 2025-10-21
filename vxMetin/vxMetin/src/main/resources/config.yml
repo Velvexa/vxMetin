@@ -14,7 +14,7 @@
 # English: Default language file to load. Must match a file name in /lang/ (e.g., en_US.yml).
 # Türkçe: Yüklenecek varsayılan dil dosyası. /lang/ klasöründeki dosya adıyla eşleşmelidir (örnek: en_US.yml).
 # Deutsch: Standardsprachdatei, die geladen werden soll. Muss mit einem Dateinamen in /lang/ übereinstimmen (z.B. en_US.yml).
-language: tr_TR
+language: en_US
 
 
 # ───────────────
