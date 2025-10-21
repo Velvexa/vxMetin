@@ -13,7 +13,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import vx.velvexa.metinstones.vxMetin;
 
-
 public class LangManager {
 
     private final vxMetin plugin;
@@ -21,7 +20,6 @@ public class LangManager {
     private FileConfiguration defaultLang;
     private String activeLocale;
     private final Map<String, String> cache = new HashMap<>();
-
 
     private static final String[] SUPPORTED_LANGS = {"en_US", "tr_TR", "de_DE", "es_ES"};
 
@@ -38,11 +36,12 @@ public class LangManager {
             }
         }
 
-
-        loadLanguage(plugin.getConfig().getString("language", "en_US"));
+  
+        String initialLocale = plugin.getConfig().getString("language", "en_US");
+        loadLanguage(initialLocale);
     }
 
-
+ 
     public void loadLanguage(String locale) {
         this.activeLocale = locale;
         cache.clear();
@@ -95,7 +94,6 @@ public class LangManager {
         return text;
     }
 
-
     private String getOrDefault(String path, String fallback) {
         String value = null;
 
@@ -109,11 +107,19 @@ public class LangManager {
 
 
     public void reload() {
-        loadLanguage(this.activeLocale);
-        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
-                "&eLanguage reloaded: &f" + activeLocale));
-    }
+        plugin.reloadConfig(); 
+        String newLocale = plugin.getConfig().getString("language", activeLocale);
 
+        if (!newLocale.equalsIgnoreCase(activeLocale)) {
+            plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
+                    "&eDetected language change in config: &f" + activeLocale + " &7→ &a" + newLocale));
+        }
+
+        loadLanguage(newLocale);
+
+        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
+                "&eLanguage reloaded: &f" + newLocale));
+    }
 
     public String getActiveLocale() {
         return activeLocale;
