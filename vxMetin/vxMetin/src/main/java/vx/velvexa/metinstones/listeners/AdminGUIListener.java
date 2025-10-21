@@ -21,6 +21,28 @@ public class AdminGUIListener implements Listener {
 
     private final vxMetin plugin;
 
+    private static final List<String> REMOVE_KEYWORDS = List.of(
+            // English
+            "remove", "removal", "delete", "erase", "clear", "destroy", "eliminate", "terminate", "purge",
+            // Turkish
+            "sil", "kaldır", "temizle", "yok et", "imha", "iptal", "çıkar",
+            // German
+            "entfernen", "löschen", "beseitigen", "vernichten", "tilgen", "auslöschen", "entfernungsmenü",
+            // Spanish
+            "eliminar", "borrar", "quitar", "suprimir", "destruir", "eliminación"
+    );
+
+    private static final List<String> RESPAWN_KEYWORDS = List.of(
+            // English
+            "respawn", "recreate", "revive", "reappear", "restore", "regenerate", "rebuild",
+            // Turkish
+            "yeniden", "dirilt", "canlandır", "yenile", "yeniden oluştur", "respawnla",
+            // German
+            "wiederbeleben", "wiederherstellen", "spawnen", "respawnen",
+            // Spanish
+            "reaparecer", "revivir", "restaurar", "renacer", "resucitar", "reaparición"
+    );
+
     public AdminGUIListener(vxMetin plugin) {
         this.plugin = plugin;
     }
@@ -43,21 +65,17 @@ public class AdminGUIListener implements Listener {
 
         boolean isAdminMenu = title.equalsIgnoreCase(adminTitle);
 
+
+        String lower = title.toLowerCase();
         boolean isListMenu = title.equalsIgnoreCase(listTitle)
-                || title.toLowerCase().contains("remove")
-                || title.toLowerCase().contains("respawn")
-                || title.toLowerCase().contains("sil")
-                || title.toLowerCase().contains("yeniden")
-                || title.toLowerCase().contains("entfernen")
-                || title.toLowerCase().contains("wiederbeleben")
-                || title.toLowerCase().contains("reaparecer")
-                || title.toLowerCase().contains("eliminar");
+                || REMOVE_KEYWORDS.stream().anyMatch(lower::contains)
+                || RESPAWN_KEYWORDS.stream().anyMatch(lower::contains);
 
         boolean isConfirmMenu = title.equalsIgnoreCase(confirmTitle)
-                || title.toLowerCase().contains("onay")
-                || title.toLowerCase().contains("confirm")
-                || title.toLowerCase().contains("bestätigen")
-                || title.toLowerCase().contains("confirmar");
+                || lower.contains("onay")
+                || lower.contains("confirm")
+                || lower.contains("bestätigen")
+                || lower.contains("confirmar");
 
         ItemStack item = e.getCurrentItem();
         if (item == null || item.getType().isAir()) return;
@@ -95,10 +113,9 @@ public class AdminGUIListener implements Listener {
 
         if (isListMenu) {
             String mode = "none";
-            String lower = rawTitle.toLowerCase();
 
-            if (lower.contains("remove") || lower.contains("sil") || lower.contains("eliminar")) mode = "remove";
-            else if (lower.contains("respawn") || lower.contains("yeniden") || lower.contains("reaparecer")) mode = "respawn";
+            if (REMOVE_KEYWORDS.stream().anyMatch(lower::contains)) mode = "remove";
+            else if (RESPAWN_KEYWORDS.stream().anyMatch(lower::contains)) mode = "respawn";
 
             String uid = extractUniqueId(item);
             if (uid == null || uid.isEmpty()) {
