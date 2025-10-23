@@ -28,6 +28,7 @@ public class HologramManager {
     private final Map<String, Hologram> activeHolograms = new ConcurrentHashMap<>();
     private final Map<UUID, Map<UUID, Double>> damageData = new ConcurrentHashMap<>();
     private final Set<Location> respawningLocations = ConcurrentHashMap.newKeySet();
+    private final Map<String, BukkitRunnable> respawnTasks = new ConcurrentHashMap<>();
     private double baseOffset;
 
     public HologramManager(vxMetin plugin) {
@@ -98,13 +99,24 @@ public class HologramManager {
             respawningLocations.add(loc.clone());
         }
 
-        new BukkitRunnable() {
+        BukkitRunnable existing = respawnTasks.remove(uniqueId);
+        if (existing != null) existing.cancel();
+
+        BukkitRunnable task = new BukkitRunnable() {
             int timeLeft = seconds;
 
             @Override
             public void run() {
                 if (!isHologramActive(target)) {
                     cancel();
+                    respawnTasks.remove(uniqueId);
+                    if (loc != null) {
+                        respawningLocations.removeIf(l ->
+                                l.getWorld().equals(loc.getWorld()) &&
+                                l.getBlockX() == loc.getBlockX() &&
+                                l.getBlockY() == loc.getBlockY() &&
+                                l.getBlockZ() == loc.getBlockZ());
+                    }
                     return;
                 }
 
@@ -125,6 +137,7 @@ public class HologramManager {
                 }
 
                 cancel();
+                respawnTasks.remove(uniqueId);
                 try {
                     if (loc != null && loc.getWorld() != null) {
                         Chunk ch = loc.getChunk();
@@ -196,7 +209,9 @@ public class HologramManager {
                     }, 2L);
                 });
             }
-        }.runTaskTimer(plugin, 0L, 20L);
+        };
+        respawnTasks.put(uniqueId, task);
+        task.runTaskTimer(plugin, 0L, 20L);
     }
 
     public void addDamage(UUID stoneRuntimeUUID, UUID playerUUID, double amount) {
@@ -299,16 +314,50 @@ public class HologramManager {
             if (plugin.getConfig().getBoolean("debug", true))
                 plugin.getLogger().info(plugin.getLang().get("debug.hologram-removed").replace("{id}", id));
         }
+        String uid = id != null && id.startsWith("vxmetin_") ? id.substring(8) : id;
+        if (uid != null && !uid.isEmpty()) {
+            BukkitRunnable task = respawnTasks.remove(uid);
+            if (task != null) task.cancel();
+            StoneSpawnManager sm = plugin.getSpawnManager();
+            Location known = sm != null ? sm.getKnownLocation(uid) : null;
+            if (known != null) {
+                respawningLocations.removeIf(l ->
+                        l.getWorld().equals(known.getWorld()) &&
+                        l.getBlockX() == known.getBlockX() &&
+                        l.getBlockY() == known.getBlockY() &&
+                        l.getBlockZ() == known.getBlockZ());
+            }
+        }
     }
 
     public void removeAll() {
         activeHolograms.values().forEach(Hologram::delete);
         activeHolograms.clear();
         respawningLocations.clear();
+        for (BukkitRunnable r : respawnTasks.values()) {
+            try { r.cancel(); } catch (Exception ignored) {}
+        }
+        respawnTasks.clear();
         plugin.getLogger().info(plugin.getLang().get("debug.hologram-cleared"));
     }
 
     public Map<String, Hologram> getActiveHolograms() {
         return activeHolograms;
+    }
+
+    public void cancelRespawn(String uniqueId) {
+        if (uniqueId == null || uniqueId.isEmpty()) return;
+        BukkitRunnable r = respawnTasks.remove(uniqueId);
+        if (r != null) r.cancel();
+        StoneSpawnManager sm = plugin.getSpawnManager();
+        Location known = sm != null ? sm.getKnownLocation(uniqueId) : null;
+        if (known != null) {
+            respawningLocations.removeIf(l ->
+                    l.getWorld().equals(known.getWorld()) &&
+                    l.getBlockX() == known.getBlockX() &&
+                    l.getBlockY() == known.getBlockY() &&
+                    l.getBlockZ() == known.getBlockZ());
+        }
+        removeHologram("vxmetin_" + uniqueId);
     }
 }
