@@ -201,3 +201,40 @@ misc:
   check-updates: true
   auto-save-interval: 300
   performance-mode: false
+
+
+
+# ───────────────
+# WEBHOOK SETTINGS
+# ───────────────
+# English: Settings for Discord Webhook integration.
+# Türkçe: Discord Webhook entegrasyonu için ayarlar.
+# Deutsch: Einstellungen für die Discord Webhook-Integration.
+webhook:
+  enabled: true
+  url: "DISCORD_API"
+  username: "vxMetin Logger"
+  avatar_url: ""
+
+  author:
+    name: "vxMetin Monitoring System"
+    icon_url: ""
+
+  thumbnail_url: ""
+
+  footer:
+    text: "vxMetin • MineBazaar Technologies"
+    icon_url: ""
+    include_timestamp: true
+
+  messages:
+    spawn:
+      title: "🪨 Metin Stone Spawned"
+      description: "**Stone:** {stone}\n**World:** {world}\n**Location:** {x}, {y}, {z}"
+      color: "#3BA55D"
+
+    destroy:
+      title: "💥 Metin Stone Destroyed"
+      description: "**Stone:** {stone}\n**Player:** {player}\n**Location:** {x}, {y}, {z}"
+      color: "#ED4245"
+
