@@ -27,8 +27,10 @@ import vx.velvexa.metinstones.managers.LangManager;
 import vx.velvexa.metinstones.managers.LogManager;
 import vx.velvexa.metinstones.managers.StoneManager;
 import vx.velvexa.metinstones.managers.StoneSpawnManager;
+import vx.velvexa.metinstones.performance.PerformanceAnalyzer;
 import vx.velvexa.metinstones.storage.DataStorage;
 import vx.velvexa.metinstones.storage.StorageFactory;
+import vx.velvexa.metinstones.webhook.WebhookManager;
 
 public final class vxMetin extends JavaPlugin implements TabExecutor {
 
@@ -40,6 +42,7 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
     private LogManager logManager;
     private HologramManager hologramManager;
     private DataStorage storage;
+    private WebhookManager webhookManager;
 
     private String activeLocale;
     private boolean debug;
@@ -61,18 +64,23 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
         getLogger().info("─────────────────────────────");
         getLogger().info(getLangMessage("console.plugin-starting"));
 
-
         langManager = new LangManager(this);
         stoneManager = new StoneManager(this);
         hologramManager = new HologramManager(this);
         logManager = new LogManager(this);
-
 
         storage = StorageFactory.create(this);
         getLogger().info(getLangMessage("console.storage-active")
                 .replace("{type}", getConfig().getString("storage.type", "YAML")));
 
         spawnManager = new StoneSpawnManager(this, stoneManager);
+
+        webhookManager = new WebhookManager(this, getConfig());
+        if (webhookManager.isEnabled()) {
+            getLogger().info("[vxMetin] Webhook system enabled.");
+        } else {
+            getLogger().info("[vxMetin] Webhook system disabled or invalid URL.");
+        }
 
         if (getCommand("metin") != null) {
             getCommand("metin").setExecutor(this);
@@ -179,6 +187,18 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
                 return true;
             }
             case "reload" -> handleReload(player);
+            case "analyze" -> {
+                if (!player.hasPermission("vxmetin.admin")) {
+                    player.sendMessage(langManager.get("messages.no-permission"));
+                    return true;
+                }
+                boolean detailed = args.length > 1 && args[1].equalsIgnoreCase("full");
+                player.sendMessage(ChatColor.GREEN + "[vxMetin] " + ChatColor.GRAY + "Starting performance analysis...");
+                PerformanceAnalyzer analyzer = new PerformanceAnalyzer(this);
+                analyzer.runAnalysis(this, detailed);
+                player.sendMessage(ChatColor.YELLOW + "Check the console for detailed results when the analysis is complete");
+                return true;
+            }
             default -> player.sendMessage(langManager.get("messages.unknown-subcommand"));
         }
         return true;
@@ -215,7 +235,8 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (!command.getName().equalsIgnoreCase("metin")) return Collections.emptyList();
-        if (args.length == 1) return List.of("admin", "reload");
+        if (args.length == 1) return List.of("admin", "reload", "analyze");
+        if (args.length == 2 && args[0].equalsIgnoreCase("analyze")) return List.of("full");
         return Collections.emptyList();
     }
 
@@ -272,5 +293,6 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
     public LogManager getLogManager() { return logManager; }
     public HologramManager getHologramManager() { return hologramManager; }
     public DataStorage getStorage() { return storage; }
+    public WebhookManager getWebhookManager() { return webhookManager; }
     public String getActiveLocale() { return activeLocale; }
 }
