@@ -11,7 +11,7 @@
 
 name: vxMetin
 main: vx.velvexa.metinstones.vxMetin
-version: 1.0.0
+version: 1.1.0
 api-version: 1.16
 author: Velvexa
 website: https://github.com/velvexa/vxMetin
@@ -77,3 +77,4 @@ permissions:
       Türkçe: Geliştirici seviyesinde hata ayıklama ve detaylı loglamayı etkinleştirir.
       Deutsch: Aktiviert Entwickler-Debug-Ausgabe und erweiterte Protokollierung.
     default: false
+
