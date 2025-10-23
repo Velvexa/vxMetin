@@ -112,13 +112,9 @@ public class StoneSpawnManager {
                 ? stone.id + "_" + UUID.randomUUID().toString().substring(0, 8)
                 : uniqueId;
 
+
         if (activeByUniqueId.containsKey(finalUniqueId)) {
-            if (plugin.getConfig().getBoolean("debug", true)) {
-                plugin.getLogger().info("[vxMetin] "
-                        + plugin.getLang().get("console.spawnstone-skip-already-active").replace("{uid}", finalUniqueId));
-            }
-            lastKnownLocationById.put(finalUniqueId, location.clone());
-            return;
+            removeStone(finalUniqueId);
         }
 
         final Player finalPlacer = placer;
@@ -171,6 +167,8 @@ public class StoneSpawnManager {
                             + plugin.getLang().get("console.spawnstone-created").replace("{uid}", finalUniqueId)
                                     .replace("{location}", finalLoc.toString()));
                 }
+
+                new vx.velvexa.metinstones.webhook.WebhookEventListener(plugin).onStoneSpawn(finalStone, finalLoc);
 
             } catch (Exception ex) {
                 plugin.getLogger().warning("[vxMetin] "
@@ -254,6 +252,10 @@ public class StoneSpawnManager {
     public void respawnStone(String uniqueId) {
         if (uniqueId == null || uniqueId.isEmpty())
             return;
+
+
+        removeStone(uniqueId);
+
         Location lastLoc = getKnownLocation(uniqueId);
         if (lastLoc == null || lastLoc.getWorld() == null) {
             plugin.getLogger().warning("[vxMetin] "
@@ -281,11 +283,9 @@ public class StoneSpawnManager {
                 Block block = lastLoc.getBlock();
                 block.setType(stone.material != null ? stone.material : Material.STONE, false);
 
-                if (!activeByUniqueId.containsKey(uniqueId)) {
-                    spawnStone(null, stone, lastLoc, uniqueId);
-                    plugin.getLogger().info("[vxMetin] "
-                            + plugin.getLang().get("console.respawn-updated-active-list").replace("{uid}", uniqueId));
-                }
+                spawnStone(null, stone, lastLoc, uniqueId);
+                plugin.getLogger().info("[vxMetin] "
+                        + plugin.getLang().get("console.respawn-updated-active-list").replace("{uid}", uniqueId));
             } catch (Exception ex) {
                 plugin.getLogger().warning("[vxMetin] "
                         + plugin.getLang().get("console.respawn-fix-error").replace("{error}", ex.getMessage()));
