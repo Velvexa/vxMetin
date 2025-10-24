@@ -87,11 +87,20 @@ public class StoneManager {
                     }
                 }
 
+                boolean modelEnabled = false;
+                String modelId = null;
+                ConfigurationSection modelSec = s.getConfigurationSection("modelengine");
+                if (modelSec != null) {
+                    modelEnabled = modelSec.getBoolean("enabled", false);
+                    modelId = modelSec.getString("model-id", null);
+                }
+
                 MetinStone stone = new MetinStone(
                         id, displayName, coloredName, material, health, respawn,
                         worldName, rewards, rewardsTop1, rewardsTop2, rewardsTop3,
                         effects, msgSpawn, msgDestroy, msgRespawn,
-                        hologramEnabled, hologramOffset, hologramLines
+                        hologramEnabled, hologramOffset, hologramLines,
+                        modelEnabled, modelId
                 );
 
                 stones.put(id, stone);
@@ -163,6 +172,9 @@ public class StoneManager {
         public final double hologramOffset;
         public final List<String> hologramLines;
 
+        public final boolean modelEnabled;
+        public final String modelId;
+
         public MetinStone(String id,
                           String displayName,
                           String coloredName,
@@ -180,7 +192,9 @@ public class StoneManager {
                           String messageRespawn,
                           boolean hologramEnabled,
                           double hologramOffset,
-                          List<String> hologramLines) {
+                          List<String> hologramLines,
+                          boolean modelEnabled,
+                          String modelId) {
             this.id = id;
             this.displayName = displayName;
             this.coloredName = coloredName;
@@ -199,6 +213,8 @@ public class StoneManager {
             this.hologramEnabled = hologramEnabled;
             this.hologramOffset = hologramOffset;
             this.hologramLines = hologramLines != null ? hologramLines : new ArrayList<>();
+            this.modelEnabled = modelEnabled;
+            this.modelId = modelId;
         }
     }
 }
