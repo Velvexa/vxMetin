@@ -1,6 +1,6 @@
 # ╔════════════════════════════════════════════════════════════╗
 # ║                     vxMetin • Plugin File                   ║
-# ║                     Version: 1.0.0                          ║
+# ║                     Version: 1.2.0                          ║
 # ║                     Author: Velvexa                         ║
 # ║                                                             ║
 # ╚════════════════════════════════════════════════════════════╝
@@ -11,7 +11,7 @@
 
 name: vxMetin
 main: vx.velvexa.metinstones.vxMetin
-version: 1.1.0
+version: 1.2.0
 api-version: 1.16
 author: Velvexa
 website: https://github.com/velvexa/vxMetin
@@ -20,7 +20,7 @@ prefix: vxMetin
 description: >
   Advanced & multilingual Metin Stone system for MMORPG-style Minecraft servers.
   Includes GUI-based management, holographic display, automatic respawn, logging,
-  and hybrid storage support (YAML, SQLite, MySQL).
+  ModelEngine integration support, and hybrid storage (YAML, SQLite, MySQL).
 
 # English: Defines core dependencies and plugin integration settings.
 # Türkçe: Temel bağımlılıkları ve eklenti entegrasyon ayarlarını tanımlar.
@@ -33,6 +33,8 @@ softdepend:
   - Vault
   - PlaceholderAPI
   - MythicMobs
+  - ModelEngine
+  - ProtocolLib
 
 
 # English: Main commands available for server administrators and players.
@@ -45,7 +47,7 @@ commands:
       English: Opens or manages Metin Stones via admin GUI or reloads configuration.
       Türkçe: Metin taşlarını yönetici GUI’sinden açar veya yapılandırmayı yeniler.
       Deutsch: Öffnet/verwaltet Metin-Steine über das Admin-GUI oder lädt die Konfiguration neu.
-    usage: /metin <admin|reload>
+    usage: /metin <admin|reload|analyze>
     aliases: [metinstone, metinstones, mstone]
     permission: vxmetin.admin
     permission-message: "&cYou do not have permission to use this command! / Bu komutu kullanma yetkiniz yok! / Sie haben keine Berechtigung für diesen Befehl!"
@@ -77,4 +79,3 @@ permissions:
       Türkçe: Geliştirici seviyesinde hata ayıklama ve detaylı loglamayı etkinleştirir.
       Deutsch: Aktiviert Entwickler-Debug-Ausgabe und erweiterte Protokollierung.
     default: false
-
