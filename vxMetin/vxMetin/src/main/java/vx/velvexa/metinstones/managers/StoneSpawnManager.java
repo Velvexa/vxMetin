@@ -82,8 +82,14 @@ public class StoneSpawnManager {
                 return;
             }
 
-            Block block = loc.getBlock();
-            block.setType(stone.material != null ? stone.material : Material.STONE, false);
+            boolean usedModel = false;
+            if (stone.modelEnabled && plugin.getModelEngineManager() != null && plugin.getModelEngineManager().isAvailable() && stone.modelId != null && !stone.modelId.isEmpty()) {
+                usedModel = plugin.getModelEngineManager().spawnModel(stone.modelId, loc, uniqueId);
+            }
+            if (!usedModel) {
+                Block block = loc.getBlock();
+                block.setType(stone.material != null ? stone.material : Material.STONE, false);
+            }
 
             ActiveStone active = new ActiveStone(stone, loc.clone(), stone.health, uniqueId);
             activeStones.put(active.uuid, active);
@@ -112,7 +118,6 @@ public class StoneSpawnManager {
                 ? stone.id + "_" + UUID.randomUUID().toString().substring(0, 8)
                 : uniqueId;
 
-
         if (activeByUniqueId.containsKey(finalUniqueId)) {
             removeStone(finalUniqueId);
         }
@@ -123,8 +128,14 @@ public class StoneSpawnManager {
 
         Bukkit.getScheduler().runTask(plugin, () -> {
             try {
-                Block block = finalLoc.getBlock();
-                block.setType(finalStone.material != null ? finalStone.material : Material.STONE, false);
+                boolean usedModel = false;
+                if (finalStone.modelEnabled && plugin.getModelEngineManager() != null && plugin.getModelEngineManager().isAvailable() && finalStone.modelId != null && !finalStone.modelId.isEmpty()) {
+                    usedModel = plugin.getModelEngineManager().spawnModel(finalStone.modelId, finalLoc, finalUniqueId);
+                }
+                if (!usedModel) {
+                    Block block = finalLoc.getBlock();
+                    block.setType(finalStone.material != null ? finalStone.material : Material.STONE, false);
+                }
 
                 ActiveStone active = new ActiveStone(finalStone, finalLoc.clone(), finalStone.health, finalUniqueId);
                 activeStones.put(active.uuid, active);
@@ -206,6 +217,10 @@ public class StoneSpawnManager {
             return;
 
         Bukkit.getScheduler().runTask(plugin, () -> {
+            if (plugin.getModelEngineManager() != null && plugin.getModelEngineManager().isAvailable()) {
+                plugin.getModelEngineManager().removeModel(stone.uniqueId);
+            }
+
             Block block = stone.location.getBlock();
             block.setType(Material.AIR);
 
@@ -253,7 +268,6 @@ public class StoneSpawnManager {
         if (uniqueId == null || uniqueId.isEmpty())
             return;
 
-
         removeStone(uniqueId);
 
         Location lastLoc = getKnownLocation(uniqueId);
@@ -280,8 +294,14 @@ public class StoneSpawnManager {
                 Chunk chunk = lastLoc.getChunk();
                 if (!chunk.isLoaded())
                     chunk.load(true);
-                Block block = lastLoc.getBlock();
-                block.setType(stone.material != null ? stone.material : Material.STONE, false);
+                boolean usedModel = false;
+                if (stone.modelEnabled && plugin.getModelEngineManager() != null && plugin.getModelEngineManager().isAvailable() && stone.modelId != null && !stone.modelId.isEmpty()) {
+                    usedModel = plugin.getModelEngineManager().spawnModel(stone.modelId, lastLoc, uniqueId);
+                }
+                if (!usedModel) {
+                    Block block = lastLoc.getBlock();
+                    block.setType(stone.material != null ? stone.material : Material.STONE, false);
+                }
 
                 spawnStone(null, stone, lastLoc, uniqueId);
                 plugin.getLogger().info("[vxMetin] "
@@ -301,6 +321,10 @@ public class StoneSpawnManager {
         activeByUniqueId.values().removeIf(u -> u.equals(id));
 
         Bukkit.getScheduler().runTask(plugin, () -> {
+            if (plugin.getModelEngineManager() != null && plugin.getModelEngineManager().isAvailable()) {
+                plugin.getModelEngineManager().removeModel(active.uniqueId);
+            }
+
             Block block = active.location.getBlock();
             block.setType(Material.AIR);
             storage.deleteStone(active.uniqueId);
