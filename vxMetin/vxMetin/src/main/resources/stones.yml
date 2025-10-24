@@ -1,6 +1,6 @@
 # ────────────────────────────────────────────────
 # vxMetin • Stones Configuration File
-# Version: 1.0.0 (EN + TR + DE)
+# Version: 1.2.0 (EN + TR + DE)
 # ────────────────────────────────────────────────
 # English: Each stone can have its own unique health, effects, hologram, and rewards.
 # Türkçe: Her taşın kendine özel can değeri, efektleri, hologramı ve ödülleri olabilir.
@@ -20,6 +20,11 @@ stones:
     material: RED_GLAZED_TERRACOTTA
     health: 10.0
     respawn-seconds: 30
+
+    # ModelEngine Integration (Optional)
+    modelengine:
+      enabled: false
+      model-id: ""
 
     hologram-enabled: true
     hologram-offset: 1.2
@@ -58,6 +63,11 @@ stones:
     material: BLUE_GLAZED_TERRACOTTA
     health: 20.0
     respawn-seconds: 30
+
+    # ModelEngine Integration (Optional)
+    modelengine:
+      enabled: false
+      model-id: ""
 
     hologram-enabled: true
     hologram-offset: 1.3
@@ -98,6 +108,11 @@ stones:
     material: GOLD_BLOCK
     health: 30.0
     respawn-seconds: 30
+
+    # ModelEngine Integration (Optional)
+    modelengine:
+      enabled: false
+      model-id: ""
 
     hologram-enabled: true
     hologram-offset: 1.4
@@ -140,6 +155,11 @@ stones:
     health: 40.0
     respawn-seconds: 30
 
+    # ModelEngine Integration (Optional)
+    modelengine:
+      enabled: false
+      model-id: ""
+
     hologram-enabled: true
     hologram-offset: 1.6
     hologram-lines:
@@ -161,4 +181,3 @@ stones:
       - "eco give %player% 1000"
     rewards:
       - "eco give %player% 300"
-
