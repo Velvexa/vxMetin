@@ -1,6 +1,6 @@
 # ────────────────────────────────────────────────
 # vxMetin • Configuration File
-# Version: 1.0.0-STABLE
+# Version: 1.2.0-STABLE
 # ────────────────────────────────────────────────
 # English: Main configuration file for the vxMetin system.
 # Türkçe: vxMetin sisteminin ana yapılandırma dosyasıdır.
@@ -212,7 +212,7 @@ misc:
 # Deutsch: Einstellungen für die Discord Webhook-Integration.
 webhook:
   enabled: true
-  url: "DISCORD_API"
+  url: "WEBHOOK_API"
   username: "vxMetin Logger"
   avatar_url: ""
 
