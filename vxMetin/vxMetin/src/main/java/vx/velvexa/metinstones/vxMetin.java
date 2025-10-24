@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -23,10 +24,12 @@ import vx.velvexa.metinstones.listeners.AddStoneGUIListener;
 import vx.velvexa.metinstones.listeners.AdminGUIListener;
 import vx.velvexa.metinstones.listeners.MetinBreakListener;
 import vx.velvexa.metinstones.listeners.MetinStonePlaceListener;
+import vx.velvexa.metinstones.listeners.ProtectionListener;
 import vx.velvexa.metinstones.managers.LangManager;
 import vx.velvexa.metinstones.managers.LogManager;
 import vx.velvexa.metinstones.managers.StoneManager;
 import vx.velvexa.metinstones.managers.StoneSpawnManager;
+import vx.velvexa.metinstones.modelengine.ModelEngineManager;
 import vx.velvexa.metinstones.performance.PerformanceAnalyzer;
 import vx.velvexa.metinstones.storage.DataStorage;
 import vx.velvexa.metinstones.storage.StorageFactory;
@@ -43,6 +46,7 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
     private HologramManager hologramManager;
     private DataStorage storage;
     private WebhookManager webhookManager;
+    private ModelEngineManager modelEngineManager;
 
     private String activeLocale;
     private boolean debug;
@@ -68,6 +72,13 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
         stoneManager = new StoneManager(this);
         hologramManager = new HologramManager(this);
         logManager = new LogManager(this);
+        modelEngineManager = new ModelEngineManager(this);
+
+        if (getServer().getPluginManager().getPlugin("ModelEngine") == null) {
+            getLogger().warning("[vxMetin] ModelEngine plugin not found. Model support will be disabled.");
+        } else {
+            getLogger().info("[vxMetin] ModelEngine plugin detected. Model features enabled.");
+        }
 
         storage = StorageFactory.create(this);
         getLogger().info(getLangMessage("console.storage-active")
@@ -80,6 +91,15 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
             getLogger().info("[vxMetin] Webhook system enabled.");
         } else {
             getLogger().info("[vxMetin] Webhook system disabled or invalid URL.");
+        }
+
+
+        try {
+            int pluginId = 27693; 
+            Metrics metrics = new Metrics(this, pluginId);
+            getLogger().info("[vxMetin] bStats metrics enabled. Tracking anonymous usage data.");
+        } catch (Exception e) {
+            getLogger().warning("[vxMetin] Failed to initialize bStats metrics: " + e.getMessage());
         }
 
         if (getCommand("metin") != null) {
@@ -107,6 +127,15 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
             } catch (Exception e) {
                 getLogger().warning(getLangMessage("console.holograms-failed")
                         .replace("{error}", e.getMessage()));
+            }
+        }
+
+        if (modelEngineManager != null) {
+            try {
+                modelEngineManager.removeAllModels();
+                getLogger().info("[vxMetin] All ModelEngine models removed.");
+            } catch (Exception e) {
+                getLogger().warning("[vxMetin] Failed to remove ModelEngine models: " + e.getMessage());
             }
         }
 
@@ -141,6 +170,7 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
             getServer().getPluginManager().registerEvents(new AddStoneGUIListener(this), this);
             getServer().getPluginManager().registerEvents(new MetinStonePlaceListener(this), this);
             getServer().getPluginManager().registerEvents(new MetinBreakListener(this), this);
+            getServer().getPluginManager().registerEvents(new ProtectionListener(this), this);
             log(getLangMessage("console.listeners-registered"));
         } catch (Exception ex) {
             getLogger().severe(getLangMessage("console.listeners-failed")
@@ -294,5 +324,6 @@ public final class vxMetin extends JavaPlugin implements TabExecutor {
     public HologramManager getHologramManager() { return hologramManager; }
     public DataStorage getStorage() { return storage; }
     public WebhookManager getWebhookManager() { return webhookManager; }
+    public ModelEngineManager getModelEngineManager() { return modelEngineManager; }
     public String getActiveLocale() { return activeLocale; }
 }
